@@ -1,0 +1,150 @@
+.footer {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem; /* Reduced padding */
+    font-family: 'Segoe UI', sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .footer-title {
+    font-size: 1.8rem; /* Reduced font size */
+    margin-bottom: 0.5rem; /* Reduced margin */
+    letter-spacing: 1px;
+  }
+  
+  .footer-tagline {
+    font-size: 1rem; /* Reduced font size */
+    margin-bottom: 1rem; /* Reduced margin */
+    color: #fffde7;
+  }
+  
+  /* Quick Links Section */
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem; /* Reduced margin */
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-size: 1rem; /* Reduced font size */
+  }
+  
+  .footer-links a:hover {
+    color: #222;
+  }
+  
+  /* Contact Information */
+  .footer-contact {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem; /* Reduced margin */
+  }
+  
+  .footer-contact div {
+    text-align: center;
+  }
+  
+  .footer-contact h4 {
+    font-size: 1rem; /* Reduced font size */
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-contact p {
+    font-size: 0.9rem; /* Reduced font size */
+    margin: 0;
+  }
+  
+  /* Social Media Icons */
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem; /* Reduced margin */
+  }
+  
+  .social-icon {
+    color: white;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: #333;
+    transform: scale(1.1);
+  }
+  
+  /* Footer Bottom Text */
+  .footer-bottom {
+    font-size: 0.8rem; /* Reduced font size */
+    color: #fff9;
+    margin-top: 1rem; /* Reduced margin */
+    text-align: center;
+    margin-bottom: 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-title {
+      font-size: 1.5rem;
+    }
+  
+    .footer-tagline {
+      font-size: 1rem;
+    }
+  
+    .footer-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .footer-contact {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .footer-contact h4 {
+      font-size: 1rem;
+    }
+  
+    .footer-links a {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footer-title {
+      font-size: 1.2rem;
+    }
+  
+    .footer-tagline {
+      font-size: 0.9rem;
+    }
+  
+    .footer-links a {
+      font-size: 0.9rem;
+    }
+  
+    .footer-bottom {
+      font-size: 0.7rem;
+    }
+  }
+  
