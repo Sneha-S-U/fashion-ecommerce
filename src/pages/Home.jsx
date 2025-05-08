@@ -19,7 +19,7 @@ const Home = () => {
             interval={3000}
             infiniteLoop
             showThumbs={false}
-            showArrows={false}
+            showArrows={false}   
             showStatus={false}
             showIndicators={false}
             stopOnHover={false}

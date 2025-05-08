@@ -51,6 +51,9 @@ body {
   margin: 0 auto;
   padding: 0 1rem;
 }
+.custom{
+  text-decoration: none;
+}
 
 @media (min-width: 600px) {
   .page-content {
