@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 
+# Install missing dependencies to fix crypto error
+RUN apt-get update && apt-get install -y libssl-dev
+
 # Step 4: Copy the rest of the app and build it
 COPY . ./
 RUN npm run build
@@ -23,3 +26,4 @@ EXPOSE 80
 
 # Step 8: Run Nginx when the container starts
 CMD ["nginx", "-g", "daemon off;"]
+
