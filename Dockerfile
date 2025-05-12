@@ -1,5 +1,7 @@
-# Use an official Python runtime as a parent image
 FROM python:3.10-slim
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y gcc libffi-dev libpq-dev
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -10,11 +12,10 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install  -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
 
-# Run Gunicorn (replace 'your_project_name' with your actual project name)
+# Run Gunicorn
 CMD ["gunicorn", "fashion-ecommerce.wsgi:application", "--bind", "0.0.0.0:8000"]
-
