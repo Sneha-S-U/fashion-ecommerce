@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y libssl-dev
 
 # Step 4: Copy the rest of the app and build it
 COPY . ./
-RUN npm run dev
+RUN npm run build  # Use build command instead of dev
 
 # Step 5: Use Nginx to serve the static files
 FROM nginx:alpine
@@ -26,4 +26,3 @@ EXPOSE 80
 
 # Step 8: Run Nginx when the container starts
 CMD ["nginx", "-g", "daemon off;"]
-
