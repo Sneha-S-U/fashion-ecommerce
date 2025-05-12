@@ -1,26 +1,25 @@
-# Step 1: Use an official Python image as the base image
 FROM python:3.9-slim
 
-# Step 2: Set environment variables
-ENV PYTHONUNBUFFERED 1
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Check Python version
-RUN python --version
-
-# Step 3: Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Step 4: Install dependencies (from requirements.txt)
-COPY requirements.txt /app/
+# Install system dependencies for building wheels
+RUN apt-get update && apt-get install -y \
+    gcc \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
 RUN pip install --upgrade pip
 
-RUN pip install  -r requirements.txt
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
 
-# Step 5: Copy the project files into the container
+# Copy the application code
 COPY . /app/
-
-# Step 6: Expose the port that Django will run on
-EXPOSE 8000
-
-# Step 7: Run migrations and start the Django server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
