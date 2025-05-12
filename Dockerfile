@@ -4,6 +4,9 @@ FROM python:3.9-slim
 # Step 2: Set environment variables
 ENV PYTHONUNBUFFERED 1
 
+# Check Python version
+RUN python --version
+
 # Step 3: Set the working directory inside the container
 WORKDIR /app
 
