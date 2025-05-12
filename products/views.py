@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
+
 from .models import Product, Category, Size, ProductSize
 from .serializers import (
     ProductSerializer,
@@ -23,8 +24,13 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response({'message': 'Product added successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'Product deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+   
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -36,6 +42,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response({'message': 'Category added successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'Category deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class SizeViewSet(viewsets.ModelViewSet):
@@ -74,9 +86,19 @@ class CategoryUpdateViewSet(viewsets.ModelViewSet):
         
         serializer.is_valid(raise_exception=True)
         
-        # Save the updated object
         serializer.save()
         
-        # Return a successful response
         return Response({'message': 'Category updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+    
+class ProductUpdateViewset(viewsets.ModelViewSet):
+    queryset=Product.objects.all()
+    serializer_class=ProductSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly, IsManagerOrAdminOrReadOnly]
+
+    def update(self, request, *args, **kwargs):
+        instance=self.get_object()
+        serializer=self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message':'Product updated successfully', 'data':serializer.data}, status=status.HTTP_200_OK)
 
