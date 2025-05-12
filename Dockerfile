@@ -12,6 +12,8 @@ WORKDIR /app
 
 # Step 4: Install dependencies (from requirements.txt)
 COPY requirements.txt /app/
+RUN pip install --upgrade pip
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Step 5: Copy the project files into the container
