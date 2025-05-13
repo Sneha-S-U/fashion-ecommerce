@@ -4,9 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "sneha730/fashion-frontend"
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials-fashionapp"
-        EC2_SSH_KEY_ID = "fashion-ecom-deploy-key" 
-        EC2_USER = "ubuntu" // depending on your EC2 AMI
-        EC2_HOST = "13.201.54.250"
     }
 
     stages {
@@ -35,26 +32,11 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to EC2') {
-            steps {
-                sshagent([EC2_SSH_KEY_ID]) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} << EOF
-                        docker pull ${DOCKER_IMAGE}:latest
-                        docker stop fashion-frontend || true
-                        docker rm fashion-frontend || true
-                        docker run -d -p 5173:5173 --name fashion-frontend ${DOCKER_IMAGE}:latest
-                    EOF
-                    """
-                }
-            }
-        }
     }
 
     post {
         success {
-            echo "Deployment completed successfully!"
+            echo "Docker image built and pushed successfully!"
         }
         failure {
             echo "Pipeline failed. Please check the logs."
