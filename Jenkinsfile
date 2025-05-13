@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "sneha730/fashion-frontend"
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials-fashionapp"
-        EC2_SSH_KEY_ID = "fashion-ecom-deploy-key"
+        EC2_SSH_KEY_ID = "fashion-ecom-deploy-key" 
         EC2_USER = "ubuntu" // depending on your EC2 AMI
         EC2_HOST = "13.201.54.250"
     }
