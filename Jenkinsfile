@@ -3,17 +3,17 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "sneha730/fashion-frontend"
-        DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
+        DOCKER_CREDENTIALS_ID = "dockerhub-credentials-fashionapp"
         EC2_SSH_KEY_ID = "fashion-ecom-deploy-key"
-        EC2_USER = "ec2-user" // or "ubuntu" depending on your EC2 AMI
-        EC2_HOST = "your-ec2-public-ip"
+        EC2_USER = "ubuntu" // depending on your EC2 AMI
+        EC2_HOST = "13.201.54.250"
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/fashion-ecommerce.git'
+                git branch: 'main', url: 'https://github.com/Sneha-S-U/fashion-ecommerce.git'
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
                         docker pull ${DOCKER_IMAGE}:latest
                         docker stop fashion-frontend || true
                         docker rm fashion-frontend || true
-                        docker run -d -p 80:80 --name fashion-frontend ${DOCKER_IMAGE}:latest
+                        docker run -d -p 5173:5173 --name fashion-frontend ${DOCKER_IMAGE}:latest
                     EOF
                     """
                 }
