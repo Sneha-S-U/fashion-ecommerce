@@ -32,7 +32,7 @@ export default function AppHeader() {
           {/* Profile + Cart Icons Row */}
           <div className="nav-icons">
             {/* Profile Dropdown */}
-            <NavDropdown
+            <NavDropdown 
               title={
                 <div className="icon-row">
                   <FaUserCircle size={20} />
@@ -40,7 +40,6 @@ export default function AppHeader() {
                 </div>
               }
               id="profile-dropdown"
-              
               className="profile-dropdown"
             >
               <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>

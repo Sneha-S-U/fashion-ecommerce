@@ -5,7 +5,7 @@ const outfits = [
   {
     title: 'TOPS',
     image: 'https://i.postimg.cc/sxHM4d2c/top.webp',
-    link: '/dresses/summer'
+    link: '/shop/tops'
   },
   {
     title: 'BOTTOMS',
@@ -37,7 +37,7 @@ const outfits = [
 const TrendingRoundSection = () => {
   return (
     <section className="round-section">
-      <h2 className="round-title">Top Trending Outfits</h2>
+      
       <div className="round-grid">
         {outfits.map((item, index) => (
           <a href={item.link} className="round-item" key={index}>

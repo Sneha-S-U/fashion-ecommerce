@@ -17,7 +17,7 @@
   .contact-title {
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
@@ -53,7 +53,7 @@
   }
   
   .contact-form button {
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
     color: white;
     padding: 0.75rem;
     font-size: 1rem;
@@ -64,7 +64,8 @@
   }
   
   .contact-form button:hover {
-    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    background: linear-gradient(135deg, #cc5c44, #d98c5a);
+
   }
   
   @media (max-width: 600px) {

@@ -2,17 +2,18 @@ import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.css';
+
 import CardGrid from '../component/CardGrid';
 import TrendingRoundSection from '../component/TrendingRoundSection';
 import ContactSection from '../component/ContactSection';
 
-
-
 const Home = () => {
   return (
     <>
-    <TrendingRoundSection/>
+      <TrendingRoundSection />
+
       <div className="home-container">
+        
         <div className="carousel-box">
           <Carousel
             autoPlay
@@ -24,9 +25,24 @@ const Home = () => {
             showIndicators={false}
             stopOnHover={false}
           >
-            <div><img src="https://i.postimg.cc/KzNGN51v/pic1.webp" alt="Outfit 1" /></div>
-            <div><img src="https://i.postimg.cc/ZnsTkKPG/pexels-godisable-jacob-226636-1154861.jpg" alt="Outfit 2" /></div>
-            <div><img src="https://i.postimg.cc/Qtp9r5VR/pexels-sam-lion-5709643.jpg" alt="Outfit 3" /></div>
+            <div>
+              <img
+                src="https://i.postimg.cc/KzNGN51v/pic1.webp"
+                alt="Outfit 1"
+              />
+            </div>
+            <div>
+              <img
+                src="https://i.postimg.cc/ZnsTkKPG/pexels-godisable-jacob-226636-1154861.jpg"
+                alt="Outfit 2"
+              />
+            </div>
+            <div>
+              <img
+                src="https://i.postimg.cc/Qtp9r5VR/pexels-sam-lion-5709643.jpg"
+                alt="Outfit 3"
+              />
+            </div>
           </Carousel>
         </div>
 
@@ -36,10 +52,12 @@ const Home = () => {
           <button className="view-more-btn">View More</button>
         </div>
       </div>
+
       <section>
-      <CardGrid/>
+        <CardGrid />
       </section>
-      <ContactSection/>
+
+      <ContactSection />
     </>
   );
 };
