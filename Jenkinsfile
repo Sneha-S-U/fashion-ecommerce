@@ -13,16 +13,14 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Sneha-S-U/fashion-ecommerce.git'
+                git branch: 'frontend', url: 'https://github.com/Sneha-S-U/fashion-ecommerce.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dir('frontend') { // adjust if frontend is in a subfolder
-                        sh "docker build -t ${DOCKER_IMAGE}:latest ."
-                    }
+                    sh "docker build -t ${DOCKER_IMAGE}:latest ."
                 }
             }
         }
