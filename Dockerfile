@@ -1,13 +1,20 @@
-# Dockerfile for React Frontend
-FROM node:18
+# Use an official Node.js image as the base
+FROM node:16-alpine
 
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Copy the package.json and package-lock.json (if using npm) to install dependencies
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
-RUN npm run build
+# Expose the port that Vite uses for development
+EXPOSE 5173
 
-CMD ["npx", "serve", "-s", "build", "-l", "3000"]
+# Run the Vite development server
+CMD ["npm", "run", "dev"]
