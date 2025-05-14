@@ -1,13 +1,16 @@
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import './Auth.css';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
+
 
 export default function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '', password: '', email: '', address: '', phone_number: ''
+    username: '', password: '', email: '', address: '', phone_no : ''
   });
   const [errors, setErrors]   = useState({});
   const [touched, setTouched] = useState({});
@@ -17,7 +20,7 @@ export default function Register() {
     password:     v => v.length >= 6                   || 'Password must 6 chars',
     email:        v => /^\S+@\S+\.\S+$/.test(v)        || 'Invalid email',
     address:      v => v.trim() !== ''                 || 'Address required',
-    phone_number: v => /^\d{10}$/.test(v)              || 'Phone must be 10 digits',
+    phone_no: v => /^\d{10}$/.test(v)              || 'Phone must be 10 digits',
   };
 
   const validateField = (f, v) => {
@@ -39,33 +42,52 @@ export default function Register() {
     setErrors(p => ({ ...p, [id]: validateField(id, value) }));
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    // validate all
-    const newErrs = {};
-    Object.entries(formData).forEach(([f,v]) => {
-      const err = validateField(f, v);
-      if (err) newErrs[f] = err;
-    });
-    setErrors(newErrs);
-    setTouched({
-      username: true, password: true, email: true,
-      address: true, phone_number: true
-    });
-    if (Object.keys(newErrs).length) return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  
+  const newErrs = {};
+  Object.entries(formData).forEach(([f, v]) => {
+    const err = validateField(f, v);
+    if (err) newErrs[f] = err;
+  });
+  setErrors(newErrs);
+  setTouched({
+    username: true, password: true, email: true,
+    address: true, phone_no : true
+  });
 
-    // ---- stubbed backend call ----
-    console.log('Registering with', formData);
-    toast.success('Register stub successful!');
-    navigate('/login'); // redirect to Login
-  };
+  if (Object.keys(newErrs).length) return;
+
+  try {
+    
+    const response = await axios.post('http://127.0.0.1:8000/api/users/register/', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+   
+    if (response.status === 201) {
+      toast.success('Registration successful!');
+      navigate('/login'); 
+    }
+  } catch (error) {
+    // Handle errors (e.g., already existing user or server errors)
+    if (error.response) {
+      toast.error(`Error: ${error.response.data.detail || 'Something went wrong'}`);
+    } else {
+      toast.error('Error: Could not connect to the server.');
+    }
+  }
+};
 
   const fields = [
     { id:'username', label:'Username', type:'text'     },
     { id:'password', label:'Password', type:'password' },
     { id:'email',    label:'Email',    type:'email'    },
     { id:'address',  label:'Address',  type:'text'     },
-    { id:'phone_number', label:'Phone Number', type:'tel' }
+    { id:'phone_no', label:'Phone Number ', type:'tel' }
   ];
 
   return (
@@ -100,3 +122,4 @@ export default function Register() {
     </div>
   );
 }
+

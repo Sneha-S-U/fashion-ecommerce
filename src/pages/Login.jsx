@@ -1,18 +1,20 @@
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import './Auth.css';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [errors, setErrors]           = useState({});
-  const [touched, setTouched]         = useState({});
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
+  
   const validators = {
-    email:    v => /^\S+@\S+\.\S+$/.test(v) || 'Invalid email format',
-    password: v => v.length >= 6       || 'Password must be at least 6 chars',
+    username: v => v.trim() !== '' || 'Username is required',
+    password: v => v.trim() !== '' || 'Password is required',
   };
 
   const validateField = (f, v) => {
@@ -22,34 +24,60 @@ export default function Login() {
 
   const handleChange = e => {
     const { id, value } = e.target;
-    setCredentials(p => ({ ...p, [id]: value }));
+    setCredentials(prev => ({ ...prev, [id]: value }));
+
     if (touched[id]) {
-      setErrors(p => ({ ...p, [id]: validateField(id, value) }));
+      setErrors(prev => ({ ...prev, [id]: validateField(id, value) }));
     }
   };
 
   const handleBlur = e => {
     const { id, value } = e.target;
-    setTouched(p => ({ ...p, [id]: true }));
-    setErrors(p => ({ ...p, [id]: validateField(id, value) }));
+    setTouched(prev => ({ ...prev, [id]: true }));
+    setErrors(prev => ({ ...prev, [id]: validateField(id, value) }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // validate all
-    const newErrs = {};
-    Object.entries(credentials).forEach(([f, v]) => {
-      const err = validateField(f, v);
-      if (err) newErrs[f] = err;
-    });
-    setErrors(newErrs);
-    setTouched({ email: true, password: true });
-    if (Object.keys(newErrs).length) return;
 
-    // ---- stubbed backend call ----
-    console.log('Logging in with', credentials);
-    toast.success('Login stub successful!');
-    navigate('/'); // redirect to Home
+    const newErrors = {};
+    Object.entries(credentials).forEach(([field, value]) => {
+      const err = validateField(field, value);
+      if (err) newErrors[field] = err;
+    });
+
+    setErrors(newErrors);
+    setTouched({ username: true, password: true });
+
+    if (Object.keys(newErrors).length > 0) return;
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/users/login/', credentials, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const { access, role } = response.data;
+
+    if (access) {
+      localStorage.setItem('authToken', access);
+      localStorage.setItem('userRole', role); // Store role
+
+      toast.success('Login successful!');
+
+      // Redirect based on role
+      if (role === 'admin' || role === 'manager') {
+        navigate('/dashboard');
+      } else {
+        navigate('/');
+      }
+    }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(`Error: ${error.response.data.detail || 'Login failed'}`);
+      } else {
+        toast.error('Error: Could not connect to the server.');
+      }
+    }
   };
 
   return (
@@ -57,21 +85,18 @@ export default function Login() {
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
 
-        {['email','password'].map(f => (
-          <div
-            key={f}
-            className={`form-group${errors[f] ? ' invalid' : ''}`}
-          >
-            <label htmlFor={f}>{f.charAt(0).toUpperCase() + f.slice(1)}</label>
+        {['username', 'password'].map(field => (
+          <div key={field} className={`form-group${errors[field] ? ' invalid' : ''}`}>
+            <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
             <input
-              id={f}
-              type={f === 'password' ? 'password' : 'email'}
-              value={credentials[f]}
+              id={field}
+              type={field === 'password' ? 'password' : 'text'}
+              value={credentials[field]}
               onChange={handleChange}
               onBlur={handleBlur}
               required
             />
-            {errors[f] && <div className="error-text">{errors[f]}</div>}
+            {errors[field] && <div className="error-text">{errors[field]}</div>}
           </div>
         ))}
 

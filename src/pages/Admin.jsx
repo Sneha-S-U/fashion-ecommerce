@@ -7,7 +7,7 @@ function Admin() {
 
   return (
     <div className="admin-container">
-      {/* Sidebar */}
+      
       <aside className={`sidebar ${sidebarOpen ? 'open' : 'collapsed'}`}>
         <h2>{sidebarOpen ? 'Admin Panel' : 'A'}</h2>
         <nav>
@@ -20,7 +20,7 @@ function Admin() {
         </nav>
       </aside>
 
-      {/* Main Section */}
+      
       <main className="main">
         <header className="header">
           <button
