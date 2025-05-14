@@ -9,4 +9,6 @@ urlpatterns = [
 
     # Product-related APIs
     path('api/products/', include('products.urls')),  # Assuming you meant to namespace products here
+
+    path('api/orders/', include('orders.urls')),
 ]

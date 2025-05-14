@@ -14,12 +14,13 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from decouple import config, Csv
 
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Use .env variables
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv)
 
 DATABASES = {
     'default': {
@@ -31,6 +32,7 @@ DATABASES = {
         'PORT': config('DB_PORT'),
     }
 }
+print("Using DB:", config('DB_NAME'))
 
 
 
@@ -47,11 +49,15 @@ INSTALLED_APPS = [
     'users',
     'products',
     'orders',
+    'corsheaders',
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -111,6 +117,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+
 
 
 
